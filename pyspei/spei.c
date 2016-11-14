@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
 	// Quit
 	return(0);
 }
-*/
+
 
 // spei()
 // Calculates the Standardized Precipitation-Evapotransporation Index
@@ -178,3 +178,4 @@ void spei(float dataSeries[], int n, int seasons, float speiSeries[]) {
 		}
 	}
 }
+*/
