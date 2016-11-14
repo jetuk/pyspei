@@ -16,7 +16,7 @@ def datadir(tmpdir, request):
     test_dir, _ = os.path.splitext(filename)
 
     if os.path.isdir(test_dir):
-        dir_util.copy_tree(test_dir, bytes(tmpdir))
+        dir_util.copy_tree(test_dir,  str(tmpdir))
     return tmpdir
 
 
@@ -37,5 +37,4 @@ def test_tampa(datadir):
         # data computed from C version
         test_data = np.array([float(v) for v in fh_test.readlines()])
         spei_data = np.array([float(v) for v in fh_calc.readlines()])
-
         np.testing.assert_allclose(test_data, spei_data, rtol=1e-4, atol=1e-4)

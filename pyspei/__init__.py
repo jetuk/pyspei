@@ -40,8 +40,9 @@ def spei(precip, interval=12, temp=None, latitude=None, seasonality=12):
     if temp is not None and latitude is not None:
         thornthwaite(temp, latitude, pet)
 
+
     spei_data = np.empty(precip.shape[0] - interval + 1, dtype=np.float32)
-    c_spei(precip - pet, interval, seasonality, spei_data)
+    c_spei((precip - pet).astype(np.float32), interval, seasonality, spei_data)
 
     return spei_data
 

@@ -6,9 +6,10 @@ def main(interval, input_filename, output_filename):
 
     name, lat, (year, mth), seasonality, precip, temp = read_txt(input_filename)
 
+    print(precip.shape, interval)
     spei_data = spei(precip, interval=interval, temp=temp, latitude=lat)
 
-    first_spei_year = year + (interval - 1) / 12
+    first_spei_year = year + (interval - 1) // 12
     first_spei_mth = mth + interval - 1
     while first_spei_mth > 12:
         first_spei_mth -= 12
