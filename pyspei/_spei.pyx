@@ -58,7 +58,7 @@ def fit_loglogistic(float[:] balanceSeries, int months, int seasons):
 
     cdef float[:] beta = np.empty(3, dtype=np.float32)
     # NB the 1 based indexing.
-    cdef float[:, :] logLogisticParams = np.empty((seasons+1, 3), dtype=np.float32)
+    cdef float[:, :] logLogisticParams = np.zeros((seasons+1, 3), dtype=np.float32)
 
     # Calculate log-logistic distribution parameters
     _fit_loglogistic(acumSeries, seasons, beta, logLogisticParams)
