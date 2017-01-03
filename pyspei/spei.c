@@ -23,7 +23,7 @@
 #endif
 
 // Function prototypes
-void spei(float dataSeries[], int n, int seasons, float speiSeries[]);
+void spei(double dataSeries[], int n, int seasons, double speiSeries[]);
 
 // Main program:
 // Calculate the Standardized Precipitation Index
@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
 
 	FILE *entrada,*salida;
 	char pathOrigen[30],pathDestino[30],estacion[36],latitud[6];
-	float lat,rainSeries[NUMDATOSMAX],tempSeries[NUMDATOSMAX],
+	double lat,rainSeries[NUMDATOSMAX],tempSeries[NUMDATOSMAX],
 		  etpSeries[NUMDATOSMAX],balanceSeries[NUMDATOSMAX],
 		  acumSeries[NUMDATOSMAX],speiSeries[NUMDATOSMAX];
 	int anio,mes,seasonality,acumulated,numRegistros,acumRegistros,
@@ -140,17 +140,17 @@ int main(int argc, char **argv) {
 	// Quit
 	return(0);
 }
-*/
+
 
 // spei()
 // Calculates the Standardized Precipitation-Evapotransporation Index
 // from a series of climatic balance (precipitation minus etp). The
 // SPEI is the standardized value of the climatic balance (P-ETP),
 // computed following a Log Logistic probability distribution.
-void spei(float dataSeries[], int n, int seasons, float speiSeries[]) {
+void spei(double dataSeries[], int n, int seasons, double speiSeries[]) {
 
 	int i, j, k, nSeason;
-	float seasonSeries[NUMDATOSMAX], beta[3], logLogisticParams[NUMSEASONSMAX][3];
+	double seasonSeries[NUMDATOSMAX], beta[3], logLogisticParams[NUMSEASONSMAX][3];
 
 	// Loop through all seasons defined by seasons
 	for (j=1; j<=seasons; j++) {
@@ -178,3 +178,4 @@ void spei(float dataSeries[], int n, int seasons, float speiSeries[]) {
 		}
 	}
 }
+*/

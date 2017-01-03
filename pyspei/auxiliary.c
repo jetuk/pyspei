@@ -3,8 +3,8 @@
 
 // Function prototypes
 long int factorial(int anInteger);
-float gammaLn(float xx);
-void upward(float series[], int n);
+double gammaLn(double xx);
+void upward(double series[], int n);
 
 // factorial()
 // compute the factorial of an integer
@@ -18,7 +18,7 @@ long int factorial(int anInteger) {
 
 // gammaLn()
 // Returns the natural logarithm of the gamma function, ln[gamma(xx)] for xx > 0
-float gammaLn(float xx) {
+double gammaLn(double xx) {
 
 	double x, y, tmp, ser;
 	static double cof[6]={76.18009172947146,-86.50532032941677,
@@ -37,7 +37,7 @@ float gammaLn(float xx) {
 
 // upward()
 // Sorts a given data series from the lowest to the highest value
-void upward(float series[], int n) {
+void upward(double series[], int n) {
 
 	int i, j;
 	double temp;

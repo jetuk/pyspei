@@ -2,24 +2,24 @@
 // following the method of Thornthwaite
 
 // Function prototypes
-void thornthwaite(float tempSeries[], int n, float lat, float etpSeries[]);
+void thornthwaite(double tempSeries[], int n, double lat, double etpSeries[]);
 
 // thornthwaite(tempSeries)
 // Calculates the potential evapotranspiration from a series of monthly
 // temperature data, following the method of Thornthwaite.
-void thornthwaite(float tempSeries[], int n, float lat, float etpSeries[]){
+void thornthwaite(double tempSeries[], int n, double lat, double etpSeries[]){
 
 	double T, J, J2, J3, c, N, omega, K[13], tanLatMonth;
 	int month, i, k;
 
-	float pi = 3.14159265358979;
+	double pi = 3.14159265358979;
 	// Tangens of the average solar declination angle for each month of the year
-	float tanLat = tan(0.0174532925*lat);
-	float tanDelta[13] = {-0.37012566,-0.23853358,-0.04679872,0.16321764,
+	double tanLat = tan(0.0174532925*lat);
+	double tanDelta[13] = {-0.37012566,-0.23853358,-0.04679872,0.16321764,
 		0.32930908,0.40677729,0.3747741,0.239063,
 		0.04044485,-0.16905776,-0.33306377,-0.40743608};
-	float days[13] = {31,28,31,30,31,30,31,31,30,31,30,31};
-	//float julian[13] = {16,45.5,75,105.5,136,166.5,197,228,258.5,289,319.5,350};
+	double days[13] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	//double julian[13] = {16,45.5,75,105.5,136,166.5,197,228,258.5,289,319.5,350};
 
 	// Compute J: annual temperature efficiency index
 	J = 0;
