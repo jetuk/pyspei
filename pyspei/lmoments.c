@@ -2,18 +2,18 @@
 // plus a bunch of other auxiliar functions
 
 // Function prototypes
-void pwm(float series[], int n, float beta[], float A, float B, int isBeta);
-void lMoments(float series[], int n, float lMoment[], float A, float B);
+void pwm(double series[], int n, double beta[], double A, double B, int isBeta);
+void lMoments(double series[], int n, double lMoment[], double A, double B);
 
 // pwm()
 // Calculates the first three probability weighted moments of a sample,
 // using either the unbiased estimator (when A=B=0)
 // or a plotting position formula (when A<=B<=0).
 // This are alpha PWMs, following Rao & Hamed 2000, eqs. 3.1.4 and 3.1.6
-void pwm(float series[], int n, float pwms[], float A, float B, int isBeta) {
+void pwm(double series[], int n, double pwms[], double A, double B, int isBeta) {
 
 	int i;
-	float acum[3], F;
+	double acum[3], F;
 
 	acum[0] = acum[1] = acum[2] = 0;
 	if (A==0 && B==0) { // use unbiased estimator
@@ -54,10 +54,10 @@ void pwm(float series[], int n, float pwms[], float A, float B, int isBeta) {
 
 // lMoments()
 // Estimates the first two L-moments of the sample
-void lMoments(float series[], int n, float lMoment[], float A, float B) {
+void lMoments(double series[], int n, double lMoment[], double A, double B) {
 
 	int i, j, ordenLMom;
-	float C, D, E, acum[3], alpha[3];
+	double C, D, E, acum[3], alpha[3];
 
 	// Calculate the first three PWMs
 	pwm(series, n, alpha, A, B, 0);

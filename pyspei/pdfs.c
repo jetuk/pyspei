@@ -2,20 +2,20 @@
 // functions commonly used in extreme value analysis
 
 // Function prototypes
-void gammaFit(float L[], float gammaParams[]);
-float gammaStandardize(float value, float params[]);
-void pearsonIIIFit(float L[], float pearsonIIIParams[]);
-float pearsonIIIStandardize(float value, float params[]);
-void logLogisticFit(float pwm[], float logLogisticParams[]);
-float logLogisticCDF(float value, float params[]);
-float standardGaussianInvCDF(float prob);
+void gammaFit(double L[], double gammaParams[]);
+double gammaStandardize(double value, double params[]);
+void pearsonIIIFit(double L[], double pearsonIIIParams[]);
+double pearsonIIIStandardize(double value, double params[]);
+void logLogisticFit(double pwm[], double logLogisticParams[]);
+double logLogisticCDF(double value, double params[]);
+double standardGaussianInvCDF(double prob);
 
 // gammaFit() function:
 // Gives the parameters of a Gamma distribution function
 // fitted to a data series through its L-moments.
-void gammaFit(float L[], float gammaParams[]) {
+void gammaFit(double L[], double gammaParams[]) {
 
-	float lMomentRatio, pi, t, t2, t3;
+	double lMomentRatio, pi, t, t2, t3;
 
 	pi = 3.14159265358979;
 	lMomentRatio = L[2] / L[1]; // second l-Moment ratio
@@ -39,9 +39,9 @@ void gammaFit(float L[], float gammaParams[]) {
 
 // gammaStandardize() function:
 // standardize a single value following a Gamma distribution
-float gammaStandardize(float value, float params[]) {
+double gammaStandardize(double value, double params[]) {
 
-	float alfa, beta, y, z;
+	double alfa, beta, y, z;
 
 	alfa = params[0];
 	beta = params[1];
@@ -57,9 +57,9 @@ float gammaStandardize(float value, float params[]) {
 // pearsonIIIParams[0] = origin
 // pearsonIIIParams[1] = scale (alpha)
 // pearsonIIIParams[2] = shape (beta)
-void pearsonIIIFit(float L[], float pearsonIIIParams[]) {
+void pearsonIIIFit(double L[], double pearsonIIIParams[]) {
 
-	float lMomentRatio, pi, sqrtPi, t, t2, t3;
+	double lMomentRatio, pi, sqrtPi, t, t2, t3;
 
 	pi = 3.14159265358979;
 	sqrtPi = sqrt(pi);
@@ -85,9 +85,9 @@ void pearsonIIIFit(float L[], float pearsonIIIParams[]) {
 
 // pearsonIIIStandardize() function:
 // standardize a single value following a Pearson III distribution
-float pearsonIIIStandardize(float value, float params[]) {
+double pearsonIIIStandardize(double value, double params[]) {
 
-	float alfa, beta, origin, y, z;
+	double alfa, beta, origin, y, z;
 
 	origin = params[0]; // location
 	alfa = params[1];   // shape
@@ -104,9 +104,9 @@ float pearsonIIIStandardize(float value, float params[]) {
 
 // logLogisticFit()
 // Estimates the parameters of a Gamma distribution functions
-void logLogisticFit(float beta[], float logLogisticParams[]) {
+void logLogisticFit(double beta[], double logLogisticParams[]) {
 
-	float g1, g2;
+	double g1, g2;
 
 	// estimate gamma parameter
 	logLogisticParams[2] = (2*beta[1]-beta[0]) / (6*beta[1]-beta[0]-6*beta[2]);
@@ -120,7 +120,7 @@ void logLogisticFit(float beta[], float logLogisticParams[]) {
 
 // logLogisticCDF()
 // Gives the cumulative distribution function of 'value', following a LogLogistic distribution
-float logLogisticCDF(float value, float params[]) {
+double logLogisticCDF(double value, double params[]) {
 	return 1 / (1+pow((params[1]/(value-params[0])),params[2]));
 }
 
@@ -129,10 +129,10 @@ float logLogisticCDF(float value, float params[]) {
 // distribution. I.e., the function gives the standardized value (Z) corresponding to
 // a given probability (0<prob<1) following a standard Gaussian distribution (mean=0
 // and sd=1).
-float standardGaussianInvCDF(float prob) {
+double standardGaussianInvCDF(double prob) {
 
-	static float C[3] = {2.515517,0.802853,0.010328};
-	static float d[4] = {0,1.432788,0.189269,0.001308};
+	static double C[3] = {2.515517,0.802853,0.010328};
+	static double d[4] = {0,1.432788,0.189269,0.001308};
 	double W, WW, WWW, resul;
 
 	if (prob<=0.5) W = sqrt(-2*log(prob));

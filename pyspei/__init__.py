@@ -1,7 +1,7 @@
 from ._spei import thornthwaite
 import numpy as np
 
-def read_txt(filename, delim=';', dtype=np.float32):
+def read_txt(filename, delim=';', dtype=np.float64):
     """
 
     tampa
@@ -41,7 +41,7 @@ def spei(precip, interval=12, temp=None, latitude=None, seasonality=12, fit_only
     if temp is not None and latitude is not None:
         thornthwaite(temp, latitude, pet)
 
-    her = (precip - pet).astype(np.float32)
+    her = (precip - pet).astype(np.float64)
 
     if fit_only:
         # Only get and retun the fit parameters
@@ -49,7 +49,7 @@ def spei(precip, interval=12, temp=None, latitude=None, seasonality=12, fit_only
         return np.array(beta), np.array(logLogisticParams)
     else:
         # Calculate SPEI
-        spei_data = np.empty(precip.shape[0] - interval + 1, dtype=np.float32)
+        spei_data = np.empty(precip.shape[0] - interval + 1, dtype=np.float64)
         beta, logLogisticParams = c_spei(her, interval, seasonality, spei_data,
                                          beta=beta, logLogisticParams=logLogisticParams)
 

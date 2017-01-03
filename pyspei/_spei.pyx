@@ -4,20 +4,20 @@ import numpy as np
 cimport numpy as np
 
 
-cdef float[:] acummulate_series(float[:] balanceSeries, int months):
+cdef double[:] acummulate_series(double[:] balanceSeries, int months):
     cdef int n = balanceSeries.shape[0]
     cdef int i, j
 	# Compute the cumulative series
     cdef int acumN = n-months+1
-    cdef float[:] acumSeries = np.zeros(acumN, dtype=np.float32)
+    cdef double[:] acumSeries = np.zeros(acumN, dtype=np.float64)
     for i in range(months-1, n):
         for j in range(months):
             acumSeries[i-months+1] += balanceSeries[i-j]
 
     return acumSeries
 
-cpdef spei(float[:] balanceSeries, int months, int seasons, float[:] speiSeries,
-           float[:] beta=None, float[:, :] logLogisticParams=None):
+cpdef spei(double[:] balanceSeries, int months, int seasons, double[:] speiSeries,
+           double[:] beta=None, double[:, :] logLogisticParams=None):
     """
     Calculate SPEI for a monthly series of effective rainfall
 
@@ -37,13 +37,13 @@ cpdef spei(float[:] balanceSeries, int months, int seasons, float[:] speiSeries,
     None
 
     """
-    cdef float[:] acumSeries = acummulate_series(balanceSeries, months)
+    cdef double[:] acumSeries = acummulate_series(balanceSeries, months)
     cdef int acumN = acumSeries.shape[0]
 
     if beta is None and logLogisticParams is None:
-        beta = np.empty(3, dtype=np.float32)
+        beta = np.empty(3, dtype=np.float64)
         # NB the 1 based indexing.
-        logLogisticParams = np.empty((seasons+1, 3), dtype=np.float32)
+        logLogisticParams = np.empty((seasons+1, 3), dtype=np.float64)
         # Calculate log-logistic distribution parameters
         _fit_loglogistic(acumSeries, seasons, beta, logLogisticParams)
 
@@ -52,25 +52,25 @@ cpdef spei(float[:] balanceSeries, int months, int seasons, float[:] speiSeries,
     return beta, logLogisticParams
 
 
-def fit_loglogistic(float[:] balanceSeries, int months, int seasons):
-    cdef float[:] acumSeries = acummulate_series(balanceSeries, months)
+def fit_loglogistic(double[:] balanceSeries, int months, int seasons):
+    cdef double[:] acumSeries = acummulate_series(balanceSeries, months)
     cdef int acumN = acumSeries.shape[0]
 
-    cdef float[:] beta = np.empty(3, dtype=np.float32)
+    cdef double[:] beta = np.empty(3, dtype=np.float64)
     # NB the 1 based indexing.
-    cdef float[:, :] logLogisticParams = np.zeros((seasons+1, 3), dtype=np.float32)
+    cdef double[:, :] logLogisticParams = np.zeros((seasons+1, 3), dtype=np.float64)
 
     # Calculate log-logistic distribution parameters
     _fit_loglogistic(acumSeries, seasons, beta, logLogisticParams)
     return beta, logLogisticParams
 
-cpdef thornthwaite(float[:] tempSeries, float lat, float[:] etpSeries):
+cpdef thornthwaite(double[:] tempSeries, double lat, double[:] etpSeries):
 
     cdef int n = tempSeries.shape[0]
     c_spei.thornthwaite(&tempSeries[0], n, lat, &etpSeries[0])
 
 
-cdef _fit_loglogistic(float[:] dataSeries, int seasons, float[:] beta, float[:, :] logLogisticParams):
+cdef _fit_loglogistic(double[:] dataSeries, int seasons, double[:] beta, double[:, :] logLogisticParams):
     """
     Python port of first half of C spei() function.
 
@@ -83,7 +83,7 @@ cdef _fit_loglogistic(float[:] dataSeries, int seasons, float[:] beta, float[:, 
     cdef int i, j, k
     cdef int n = dataSeries.shape[0]
     cdef int nSeason = n // seasons + 1
-    cdef float[:] seasonSeries = np.empty(nSeason, dtype=np.float32)
+    cdef double[:] seasonSeries = np.empty(nSeason, dtype=np.float64)
 
 	# Loop through all seasons defined by seasons
     for j in range(1, seasons+1):
@@ -101,7 +101,7 @@ cdef _fit_loglogistic(float[:] dataSeries, int seasons, float[:] beta, float[:, 
         c_spei.logLogisticFit(&beta[0], &logLogisticParams[j, 0])
 
 
-cdef _spei(float[:] dataSeries, int seasons, float[:] beta, float[:, :] logLogisticParams, float[:] speiSeries):
+cdef _spei(double[:] dataSeries, int seasons, double[:] beta, double[:, :] logLogisticParams, double[:] speiSeries):
     """
     Python port of second half of C spei() function.
 
